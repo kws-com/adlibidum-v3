@@ -313,6 +313,7 @@
         item.style.opacity = opacity.toFixed(3);
         item.style.pointerEvents = Math.abs(d) < 0.35 ? 'auto' : 'none';
       });
+      }
 
       // Přímý skok na tab bez probliknutí mezikroků
       insideTabs.forEach((tab) => {
