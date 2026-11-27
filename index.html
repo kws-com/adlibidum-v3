@@ -139,61 +139,57 @@
         </div>
       </section>
 
-    <!-- 4. INSIDE — INTERAKTIVNÍ SHOWCASE -->
+<!-- 4 & 5. INSIDE — INTERAKTIVNÍ SHOWCASE -> PŘECHOD DO DETAILU -->
     <section
-      class="section-inside-showcase"
-      id="inside"
-      data-headline="./assets/headline-inside.svg"
-      data-headline-alt="INSIDE"
+    class="section-inside-stage"
+    id="inside"
+    data-headline="./assets/headline-inside.svg"
+    data-headline-alt="INSIDE"
     >
-      <div class="inside-showcase__sticky">
-        <div class="inside-showcase__stage">
-          <img src="./assets/inside-1.png" alt="Scénář pro ni a pro něj" class="inside-showcase__img is-active" data-inside-img="0" />
-          <img src="./assets/inside-2.png" alt="Průvodní dopis s kurátorovaným playlistem" class="inside-showcase__img" data-inside-img="1" />
-          <img src="./assets/inside-3.png" alt="Vstupenky a tetování" class="inside-showcase__img" data-inside-img="2" />
-          <img src="./assets/inside-4.png" alt="Drobné rekvizity" class="inside-showcase__img" data-inside-img="3" />
+    <div class="inside-stage__sticky">
+        <!-- Vrstva A: Showcase s 4 stavy (při přechodu odjede doleva) -->
+        <div class="inside-showcase__wrap" id="insideShowcaseWrap">
+        <div class="inside-showcase__stage" id="insideShowcaseStage">
+            <img src="./assets/inside-1.png" alt="Scénář pro ni a pro něj" class="inside-showcase__img is-active" data-inside-img="0" />
+            <img src="./assets/inside-2.png" alt="Průvodní dopis s kurátorovaným playlistem" class="inside-showcase__img" data-inside-img="1" />
+            <img src="./assets/inside-3.png" alt="Vstupenky a tetování" class="inside-showcase__img" data-inside-img="2" />
+            <img src="./assets/inside-4.png" alt="Drobné rekvizity" class="inside-showcase__img" data-inside-img="3" />
         </div>
 
-        <nav class="inside-showcase__tabs" aria-label="Obsah krabice">
-          <button type="button" class="inside-tab is-active" data-inside-tab="0">Scénář pro ni a pro něj</button>
-          <button type="button" class="inside-tab" data-inside-tab="1">Průvodní dopis s kurátorovaným playlistem</button>
-          <button type="button" class="inside-tab" data-inside-tab="2">Vstupenky a tetování</button>
-          <button type="button" class="inside-tab" data-inside-tab="3">Drobné rekvizity</button>
+        <nav class="inside-showcase__tabs" id="insideTabs" aria-label="Obsah krabice">
+            <button type="button" class="inside-tab is-active" data-inside-tab="0">Scénář pro ni a pro něj</button>
+            <button type="button" class="inside-tab" data-inside-tab="1">Průvodní dopis s kurátorovaným playlistem</button>
+            <button type="button" class="inside-tab" data-inside-tab="2">Vstupenky a tetování</button>
+            <button type="button" class="inside-tab" data-inside-tab="3">Drobné rekvizity</button>
         </nav>
-      </div>
-    </section>
-
-    <!-- 5. INSIDE — DETAIL SPLIT (50 % sticky krabice / 50 % push-out deck) -->
-    <section
-      class="section-deck section-split-deck"
-      data-editorial-deck
-      data-deck-step="115"
-      data-headline="./assets/headline-inside.svg"
-      data-headline-alt="INSIDE"
-    >
-      <div class="deck-sticky">
-        <div class="split-deck-grid">
-          <div class="split-deck__left">
-            <img
-              src="./assets/box-closed.png"
-              alt="Zavřená krabice AdLibidum"
-              class="inside-detail__box"
-            />
-          </div>
-
-          <div class="split-deck__right deck-stage">
-            <p class="deck-item split-paragraph" data-deck-item>
-              V krabici najdete sadu herních rekvizit a dva scénáře. Na ni čeká scénář s rolí femme fatale. Na něj s rolí detektiva.
-            </p>
-            <p class="deck-item split-paragraph" data-deck-item>
-              Scénáře podrobně provází <strong>šesti scénami</strong> — popisují jejich začátek, doporučený průběh a konec, dávají hráčům tipy a pomáhají stupňovat milostné napětí. Dvojice se <strong>nemusí učit žádné repliky</strong>, improvizuje s pomocí připravených textů na základě herních výzev. Instrukce vedou k rafinovanému intimnímu kontaktu, v podstatě jde o <strong>pár hodin intenzivní předehry</strong>.
-            </p>
-            <p class="deck-item split-paragraph" data-deck-item>
-              Součástí hry jsou pomůcky pro smyslové hraní si a atmosférický soundtrack. Kromě krabice je k hraní potřeba jen <strong>chuť a vyhrazený čas</strong>. Hrát můžete klidně doma v obýváku. Nakolik se vyřádíte s kostýmy, makeupem a scénou, je jen a jen na vás. Stejně jako vystupňování závěru hry do něčeho více.
-            </p>
-          </div>
         </div>
-      </div>
+
+        <!-- Vrstva B: Solo krabice vlevo (spawne se nad odjíždějící box-outside) + 3 odstavce vpravo -->
+        <div class="inside-detail__wrap" id="insideDetailWrap" aria-hidden="true">
+        <div class="split-deck-grid">
+            <div class="split-deck__left">
+            <img
+                src="./assets/box-closed.png"
+                alt="Zavřená krabice AdLibidum"
+                class="inside-detail__box"
+                id="insideClosedBox"
+            />
+            </div>
+
+            <div class="split-deck__right deck-stage">
+            <p class="deck-item split-paragraph" data-inside-paragraph>
+                V krabici najdete sadu herních rekvizit a dva scénáře. Na ni čeká scénář s rolí femme fatale. Na něj s rolí detektiva.
+            </p>
+            <p class="deck-item split-paragraph" data-inside-paragraph>
+                Scénáře podrobně provází <strong>šesti scénami</strong> — popisují jejich začátek, doporučený průběh a konec, dávají hráčům tipy a pomáhají stupňovat milostné napětí. Dvojice se <strong>nemusí učit žádné repliky</strong>, improvizuje s pomocí připravených textů na základě herních výzev. Instrukce vedou k rafinovanému intimnímu kontaktu, v podstatě jde o <strong>pár hodin intenzivní předehry</strong>.
+            </p>
+            <p class="deck-item split-paragraph" data-inside-paragraph>
+                Součástí hry jsou pomůcky pro smyslové hraní si a atmosférický soundtrack. Kromě krabice je k hraní potřeba jen <strong>chuť a vyhrazený čas</strong>. Hrát můžete klidně doma v obýváku. Nakolik se vyřádíte s kostýmy, makeupem a scénou, je jen a jen na vás. Stejně jako vystupňování závěru hry do něčeho více.
+            </p>
+            </div>
+        </div>
+        </div>
+    </div>
     </section>
 
     <!-- 6. REVIEWS (push-out deck po řádcích: 2 / 3 / 2) -->

@@ -436,17 +436,27 @@ textarea {
 }
 
 /* ==========================================================================
-   4. INSIDE — INTERAKTIVNÍ SHOWCASE
+   4 & 5. INSIDE — SPOJENÁ SCÉNA (SHOWCASE -> POSUN DOLEVA -> SOLO KRABICE)
    ========================================================================== */
-.section-inside-showcase {
-    position: relative;
-    height: 220svh;
+.section-inside-stage {
+  position: relative;
+  height: 420svh;
 }
 
-.inside-showcase__sticky {
+.inside-stage__sticky {
   position: sticky;
   top: 0;
   height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: calc(var(--header-h) + 8px) clamp(20px, 5vw, 72px) clamp(24px, 4vh, 48px);
+}
+
+.inside-showcase__wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   display: grid;
   grid-template-rows: 1fr auto;
   align-items: center;
@@ -458,6 +468,7 @@ textarea {
   width: min(1240px, 100%);
   height: min(68svh, 700px);
   margin: 0 auto;
+  will-change: transform, opacity;
 }
 
 .inside-showcase__img {
@@ -468,7 +479,7 @@ textarea {
   object-fit: contain;
   opacity: 0;
   transform: scale(0.985);
-  transition: opacity 0.45s var(--ease-apple), transform 0.55s var(--ease-apple);
+  transition: opacity 0.4s var(--ease-apple), transform 0.5s var(--ease-apple);
   pointer-events: none;
 }
 
@@ -483,6 +494,7 @@ textarea {
   justify-content: center;
   gap: clamp(16px, 3vw, 52px);
   padding-top: 12px;
+  will-change: opacity;
 }
 
 .inside-tab {
@@ -502,6 +514,28 @@ textarea {
 
 .inside-tab.is-active {
   color: var(--ac);
+}
+
+/* Detail vrstva (solo krabice vlevo + texty vpravo) */
+.inside-detail__wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--header-h) clamp(20px, 5vw, 80px) 32px;
+  pointer-events: none;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.inside-detail__box {
+  width: min(620px, 92%);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 28px 56px rgba(7, 4, 42, 0.14));
+  will-change: transform, opacity;
 }
 
 /* ==========================================================================
@@ -526,13 +560,6 @@ textarea {
 
 .split-deck__right {
   height: 100%;
-}
-
-.inside-detail__box {
-  width: min(620px, 92%);
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 28px 56px rgba(7, 4, 42, 0.14));
 }
 
 .split-paragraph {

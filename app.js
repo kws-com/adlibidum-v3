@@ -55,7 +55,7 @@
       const grow2 = smoothstep(clamp01((p - 0.48) / 0.07));     // 1.08 -> 1.18
       const exitT = smoothstep(clamp01((p - 0.89) / 0.11));     // 1.18 -> 1.34 & fade out
 
-      const boxScale = 1 + grow1 * 0.08 + grow2 * 0.10 + exitT * 0.16;
+      const boxScale = 1 + grow1 * 0.10 + grow2 * 0.26 + exitT * 0.18;
       const boxOpacity = 1 - exitT;
 
       morphBoxBg.style.transform = `scale(${boxScale.toFixed(4)})`;
@@ -225,12 +225,21 @@
     }
 
     /* ========================================================================
-         4. INSIDE SHOWCASE (scroll + přímý skok klikem na tab bez probliknutí)
+         4. INSIDE STAGE (showcase 4 taby -> posun doleva -> spawn solo krabice -> 3 odstavce)
          ======================================================================== */
       const insideSection = document.getElementById('inside');
+      const insideShowcaseWrap = document.getElementById('insideShowcaseWrap');
+      const insideShowcaseStage = document.getElementById('insideShowcaseStage');
+      const insideTabsNav = document.getElementById('insideTabs');
       const insideImgs = [...document.querySelectorAll('[data-inside-img]')];
       const insideTabs = [...document.querySelectorAll('[data-inside-tab]')];
+      const insideDetailWrap = document.getElementById('insideDetailWrap');
+      const insideClosedBox = document.getElementById('insideClosedBox');
+      const insideParagraphs = [...document.querySelectorAll('[data-inside-paragraph]')];
+
       const TOTAL_INSIDE = insideImgs.length;
+      const SHOWCASE_END = 0.46;   // 0.00–0.46: 4 taby showcase
+      const TRANSITION_END = 0.60; // 0.46–0.60: posun box-outside doleva + spawn box-closed
       let activeInsideStep = 0;
 
       function setInsideStep(index) {
@@ -246,18 +255,71 @@
         const rect = insideSection.getBoundingClientRect();
         const scrollable = insideSection.offsetHeight - window.innerHeight;
         if (scrollable <= 0) return;
-        const progress = clamp01(-rect.top / scrollable);
-        setInsideStep(Math.min(TOTAL_INSIDE - 1, Math.floor(progress * TOTAL_INSIDE)));
+
+        const p = clamp01(-rect.top / scrollable);
+        const isMobile = window.innerWidth <= 960;
+
+        // 1. Aktivní tab v rámci 0.00–0.46
+        const showcaseP = clamp01(p / SHOWCASE_END);
+        setInsideStep(Math.min(TOTAL_INSIDE - 1, Math.floor(showcaseP * TOTAL_INSIDE)));
+
+        // 2. Přechod (0.46–0.60): box-outside jede doleva, taby mizí, nad ní se spawne solo krabice
+        const transT = smoothstep(clamp01((p - SHOWCASE_END) / (TRANSITION_END - SHOWCASE_END)));
+
+        const shiftX = isMobile ? 0 : lerp(0, -24, transT);
+        const stageScale = lerp(1, 0.82, transT);
+        const stageOpacity = 1 - smoothstep(clamp01((transT - 0.25) / 0.75));
+
+        if (insideShowcaseStage) {
+          insideShowcaseStage.style.transform = `translate3d(${shiftX.toFixed(2)}vw, 0, 0) scale(${stageScale.toFixed(4)})`;
+          insideShowcaseStage.style.opacity = stageOpacity.toFixed(3);
+        }
+
+        if (insideTabsNav) {
+          const tabsOpacity = 1 - smoothstep(clamp01(transT / 0.45));
+          insideTabsNav.style.opacity = tabsOpacity.toFixed(3);
+          insideShowcaseWrap.style.pointerEvents = tabsOpacity > 0.1 ? 'auto' : 'none';
+        }
+
+        // Spawn solo krabice přesně nad odjíždějící levou pozicí
+        if (insideDetailWrap && insideClosedBox) {
+          const detailOpacity = smoothstep(clamp01((transT - 0.15) / 0.75));
+          insideDetailWrap.style.opacity = detailOpacity.toFixed(3);
+          insideDetailWrap.setAttribute('aria-hidden', String(detailOpacity < 0.1));
+          insideClosedBox.style.transform = `scale(${lerp(0.94, 1, detailOpacity).toFixed(4)})`;
+        }
+
+        // 3. Odstavce vpravo (0.60–1.00): stejný stop-na-středu engine
+        const detailP = clamp01((p - TRANSITION_END) / (1 - TRANSITION_END));
+        const floatIdx = detailP * (insideParagraphs.length - 1);
+
+        insideParagraphs.forEach((item, i) => {
+          const d = i - floatIdx;
+          const yVh = d > 0 ? d * 44 : 0;
+
+          let opacity;
+          if (d >= 0) {
+            const t = clamp01(1 - d);
+            opacity = lerp(0.2, 1, smoothstep(t));
+            if (d > 1.2) opacity = Math.max(0, lerp(0.2, 0, (d - 1.2) / 0.45));
+          } else {
+            const t = clamp01(1 + d / 0.65);
+            opacity = smoothstep(t);
+          }
+
+          item.style.transform = `translate3d(0, calc(-50% + ${yVh.toFixed(2)}vh), 0)`;
+          item.style.opacity = opacity.toFixed(3);
+        });
       }
 
+      // Přímý skok na tab bez probliknutí mezikroků
       insideTabs.forEach((tab) => {
         tab.addEventListener('click', () => {
           if (!insideSection) return;
           const idx = Number(tab.dataset.insideTab);
           const sectionTop = insideSection.getBoundingClientRect().top + window.scrollY;
           const scrollable = insideSection.offsetHeight - window.innerHeight;
-          // Cílíme na střed pásma daného kroku, aby se to na hraně nepřepnulo zpět
-          const targetY = sectionTop + ((idx + 0.5) / TOTAL_INSIDE) * scrollable;
+          const targetY = sectionTop + (((idx + 0.5) / TOTAL_INSIDE) * SHOWCASE_END) * scrollable;
 
           setInsideStep(idx);
           window.scrollTo({ top: targetY, behavior: 'instant' });
