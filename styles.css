@@ -20,7 +20,7 @@
   --fs-imagine-text: clamp(1.5rem, 2.7vw, 3.1rem);
   --fs-inside-tab: clamp(1.05rem, 1.55vw, 1.7rem);
   --fs-split-body: clamp(1.25rem, 1.85vw, 2.05rem);
-  --fs-review: clamp(1.2rem, 1.65vw, 1.85rem);
+  --fs-review: clamp(1.55rem, 2.35vw, 2.65rem);
   --fs-faq-q: clamp(1.3rem, 2vw, 2.1rem);
   --fs-faq-a: clamp(1rem, 1.15vw, 1.18rem);
   --fs-credits: clamp(1.3rem, 2vw, 2.25rem);
@@ -198,9 +198,9 @@ textarea {
    1 & 2. HERO -> EXPERIENCE MORPH STAGE
    ========================================================================== */
 .section-hero-exp {
-  position: relative;
-  height: 520svh;
-  background: var(--bg);
+    position: relative;
+    height: 320svh;
+    background: var(--bg);
 }
 
 .hero-exp__sticky {
@@ -341,8 +341,7 @@ textarea {
   display: inline-block;
   margin-right: 0.24em;
   opacity: 0;
-  transform: translateY(0.12em);
-  will-change: opacity, transform;
+  will-change: opacity;
 }
 
 /* ==========================================================================
@@ -416,8 +415,8 @@ textarea {
    4. INSIDE — INTERAKTIVNÍ SHOWCASE
    ========================================================================== */
 .section-inside-showcase {
-  position: relative;
-  height: 340svh;
+    position: relative;
+    height: 220svh;
 }
 
 .inside-showcase__sticky {
@@ -597,13 +596,13 @@ textarea {
    6. REVIEWS (push-out po řádcích)
    ========================================================================== */
 .reviews-stage {
-  max-width: 1460px;
-  margin: 0 auto;
+    max-width: 1640px;
+    margin: 0 auto;
 }
 
 .reviews-row {
   display: grid;
-  gap: clamp(20px, 2.5vw, 34px);
+  gap: clamp(24px, 2.8vw, 40px);
 }
 
 .reviews-row--2 {
@@ -618,19 +617,20 @@ textarea {
   background: var(--bg);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
-  padding: clamp(26px, 3vw, 46px);
+  padding: clamp(32px, 3.8vw, 58px);
+  min-height: clamp(280px, 38svh, 420px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 1.75rem;
+  gap: 2.2rem;
 }
 
 .review-card__quote {
   margin: 0;
   font-family: var(--font-display);
   font-size: var(--fs-review);
-  line-height: 1.24;
-  letter-spacing: -0.01em;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
 }
 
 .review-card__author {
@@ -642,12 +642,12 @@ textarea {
 
 .review-card__author strong {
   font-weight: 400;
-  font-size: 1.35rem;
+  font-size: clamp(1.45rem, 1.8vw, 1.95rem);
 }
 
 .review-card__author span {
   font-style: italic;
-  font-size: 1.05rem;
+  font-size: clamp(1.1rem, 1.3vw, 1.4rem);
   color: var(--muted);
 }
 

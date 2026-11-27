@@ -5,9 +5,9 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const smoothstep = (t) => t * t * (3 - 2 * t);
 
-  /* ========================================================================
-     1. HERO -> EXPERIENCE MORPH + ODHALOVÁNÍ SLOVO PO SLOVU
-     ======================================================================== */
+/* ========================================================================
+      1. HERO -> EXPERIENCE MORPH + ODHALOVÁNÍ SLOVO PO SLOVU (jen opacity)
+      ======================================================================== */
   const heroExpSection = document.getElementById('heroExperience');
   const morphBox = document.getElementById('morphBox');
   const heroFrame = document.getElementById('heroFrame');
@@ -15,7 +15,6 @@
   const expLayer = document.getElementById('experienceLayer');
   const expChunks = [...document.querySelectorAll('.exp-chunk')];
 
-  // Rozseká každý chunk na jednotlivá slova pro plynulé odhalování
   const chunkWords = expChunks.map((chunk) => {
     const words = chunk.textContent.trim().split(/\s+/);
     chunk.textContent = '';
@@ -28,17 +27,11 @@
     });
   });
 
-  // Časové rozsahy (0..1 v rámci celé sekce #heroExperience)
-  // 0.00–0.16: Hero zmizí, bílý obdélník se zvětší
-  // 0.16–0.40: Chunk 0 (po "přípravy.") se odhalí slovo po slovu
-  // 0.40–0.66: Chunk 0 dropne na 50 %, odhalí se Chunk 1 (po "detektivem.")
-  // 0.66–0.84: Chunk 1 dropne na 50 % a Chunk 0 na 10 %, odhalí se Chunk 2 ("Naše scénáře… Jak daleko?")
-  // 0.84–0.96: V růžové se odhalí Chunk 3 ("To už je na vás.")
   const CHUNK_RANGES = [
-    [0.16, 0.40],
-    [0.40, 0.66],
-    [0.66, 0.84],
-    [0.84, 0.96],
+    [0.14, 0.38],
+    [0.38, 0.64],
+    [0.64, 0.83],
+    [0.83, 0.96],
   ];
 
   function updateHeroExperience() {
@@ -49,23 +42,20 @@
 
     const p = clamp01(-rect.top / scrollable);
 
-    // Fáze 1: Oddělení a zvětšení bílého obdélníku + zmizení Hero obsahu
-    const morphT = smoothstep(clamp01(p / 0.16));
+    const morphT = smoothstep(clamp01(p / 0.14));
     const scale = lerp(1, 1.07, morphT);
     morphBox.style.transform = `scale(${scale.toFixed(4)})`;
 
-    const heroOpacity = 1 - smoothstep(clamp01(p / 0.12));
+    const heroOpacity = 1 - smoothstep(clamp01(p / 0.11));
     heroLayer.style.opacity = heroOpacity.toFixed(3);
-    heroLayer.style.transform = `translateY(${lerp(0, -24, 1 - heroOpacity).toFixed(1)}px)`;
     heroLayer.style.pointerEvents = heroOpacity > 0.1 ? 'auto' : 'none';
     heroFrame.style.opacity = heroOpacity.toFixed(3);
 
-    // Zobrazení Experience vrstvy
-    const expVisible = smoothstep(clamp01((p - 0.13) / 0.05));
+    const expVisible = smoothstep(clamp01((p - 0.11) / 0.05));
     expLayer.style.opacity = expVisible.toFixed(3);
     expLayer.setAttribute('aria-hidden', String(expVisible < 0.1));
 
-    // Odhalování slov v jednotlivých chuncích
+    // Odhalování slov čistě přes opacity (bez vertikálního posunu)
     chunkWords.forEach((words, idx) => {
       const [start, end] = CHUNK_RANGES[idx];
       const localP = clamp01((p - start) / (end - start));
@@ -73,25 +63,20 @@
 
       words.forEach((wordEl, wIdx) => {
         const wStart = wIdx / total;
-        const wEnd = (wIdx + 1.4) / total;
+        const wEnd = (wIdx + 1.35) / total;
         const wp = smoothstep(clamp01((localP - wStart) / (wEnd - wStart)));
         wordEl.style.opacity = wp.toFixed(3);
-        wordEl.style.transform = `translateY(${lerp(0.12, 0, wp).toFixed(3)}em)`;
       });
     });
 
-    // Stmívání dokončených bloků přesně podle zadání
-    // Chunk 0: 1.0 -> 0.5 (během chunk 1) -> 0.1 (během chunk 2)
-    const c0Drop1 = smoothstep(clamp01((p - 0.40) / 0.08));
-    const c0Drop2 = smoothstep(clamp01((p - 0.66) / 0.10));
-    const c0Opacity = lerp(lerp(1, 0.5, c0Drop1), 0.1, c0Drop2);
-    expChunks[0].style.opacity = c0Opacity.toFixed(3);
+    // Stmívání dokončených částí
+    const c0Drop1 = smoothstep(clamp01((p - 0.38) / 0.08));
+    const c0Drop2 = smoothstep(clamp01((p - 0.64) / 0.10));
+    expChunks[0].style.opacity = lerp(lerp(1, 0.5, c0Drop1), 0.1, c0Drop2).toFixed(3);
 
-    // Chunk 1: 1.0 -> 0.5 (během chunk 2)
-    const c1Drop = smoothstep(clamp01((p - 0.66) / 0.08));
+    const c1Drop = smoothstep(clamp01((p - 0.64) / 0.08));
     expChunks[1].style.opacity = lerp(1, 0.5, c1Drop).toFixed(3);
 
-    // Chunk 2 & 3 zůstávají na 100 %
     expChunks[2].style.opacity = '1';
     expChunks[3].style.opacity = '1';
 
@@ -99,18 +84,17 @@
   }
 
   /* ========================================================================
-     2. JEDNOTNÝ EDITORIAL PUSH-OUT DECK (Imagine, Inside detail, About, Reviews)
-        Element je vycentrovaný (100 %), pod ním čeká další (20 %) a scrollem
-        ho plynule vytlačí nahoru do ztracena.
-     ======================================================================== */
+      2. JEDNOTNÝ EDITORIAL DECK (stop na středu, bez rollodexu, svižné tempo)
+        Prvek přijíždí zespodu (20 % -> 100 %), na středu se zastaví a
+        při příjezdu dalšího prvku jen plynule mizí do 0 %.
+      ======================================================================== */
   const decks = [...document.querySelectorAll('[data-editorial-deck]')].map((section) => {
     const items = [...section.querySelectorAll('[data-deck-item]')];
-    const stepVh = Number(section.dataset.deckStep || 115);
-    const spreadVh = Number(section.dataset.deckSpread || 42);
+    const isReviews = section.classList.contains('section-reviews');
+    const stepVh = isReviews ? 75 : 65;
+    const spreadVh = isReviews ? 58 : 44;
 
-    // Nastavíme výšku sekce podle počtu prvků
-    section.style.height = `${items.length * stepVh + 30}svh`;
-
+    section.style.height = `${items.length * stepVh + 25}svh`;
     return { section, items, spreadVh };
   });
 
@@ -130,23 +114,24 @@
       const floatIdx = p * (count - 1);
 
       items.forEach((item, i) => {
-        const d = i - floatIdx; // 0 = aktivní střed, >0 = čeká dole, <0 = vysunuto nahoru
-        const yVh = d * spreadVh;
+        const d = i - floatIdx; // >0 čeká dole, 0 aktivní střed, <0 odcházející
+
+        // Zespodu jede nahoru na střed; jakmile dosáhne středu (d <= 0), zůstává stát (y = 0)
+        const yVh = d > 0 ? d * spreadVh : 0;
 
         let opacity;
         if (d >= 0) {
           // Přicházející zespodu: 0.20 -> 1.00
           const t = clamp01(1 - d);
           opacity = lerp(0.2, 1, smoothstep(t));
-          if (d > 1.25) opacity = Math.max(0, lerp(0.2, 0, (d - 1.25) / 0.5));
+          if (d > 1.2) opacity = Math.max(0, lerp(0.2, 0, (d - 1.2) / 0.45));
         } else {
-          // Vytlačovaný nahoru: 1.00 -> 0.00
-          const t = clamp01(1 + d);
-          opacity = lerp(0, 1, smoothstep(t));
+          // Zůstává na středu a mizí s příjezdem dalšího prvku (do d = -0.65 je na 0)
+          const t = clamp01(1 + d / 0.65);
+          opacity = smoothstep(t);
         }
 
-        const scale = 1 - Math.min(0.05, Math.abs(d) * 0.04);
-        item.style.transform = `translate3d(0, calc(-50% + ${yVh.toFixed(2)}vh), 0) scale(${scale.toFixed(4)})`;
+        item.style.transform = `translate3d(0, calc(-50% + ${yVh.toFixed(2)}vh), 0)`;
         item.style.opacity = opacity.toFixed(3);
         item.style.pointerEvents = Math.abs(d) < 0.35 ? 'auto' : 'none';
       });
