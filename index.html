@@ -14,9 +14,8 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- STICKY HEADER (objeví se po odscrollování z Hero) -->
+  <!-- STICKY HEADER -->
   <header class="site-header" id="siteHeader" aria-hidden="true">
-    <!-- ASMR tlačítko vlevo (zrcadlově k Objednat; pokud se rozhodneš ho nepoužít, stačí smazat tento button) -->
     <button
       type="button"
       class="header-btn header-btn--asmr"
@@ -38,7 +37,6 @@
       <span class="header-btn__label">ASMR</span>
     </button>
 
-    <!-- Středový nadpis aktuální sekce (SVG) -->
     <div class="header-headline" aria-live="polite">
       <img
         id="headerHeadlineImg"
@@ -48,341 +46,306 @@
       />
     </div>
 
-    <!-- Objednat vpravo -->
     <button type="button" class="btn-primary header-btn--order" data-open-order>
       Objednat
     </button>
   </header>
 
   <main>
-    <!-- 1. HERO (adli 1) -->
-    <section class="section-hero" id="hero" data-section="hero">
-      <div class="hero-box">
-        <!-- Ornamentální rámeček víka krabice (SVG) -->
-        <img
-          src="./assets/box-frame.svg"
-          alt=""
-          aria-hidden="true"
-          class="hero-box__frame"
-        />
-
-        <div class="hero-box__meta hero-box__meta--top">
-          <span>2 hráči</span>
-          <span>~3 hodiny</span>
-          <span>18+</span>
-        </div>
-
-        <div class="hero-box__center">
-          <div class="hero-box__content">
-            <img
-              src="./assets/adlibidum-logo.svg"
-              alt="ADLIBIDUM"
-              class="hero-box__logo"
-            />
-            <h1 class="hero-box__title">HRA, KTERÁ VÁS (S)VEDE</h1>
-            <p class="hero-box__subtitle">
-              Scénář pro nezapomenutelné rande,<br />
-              v pohodlí vašeho domova.
-            </p>
-            <button type="button" class="btn-primary hero-box__cta" data-open-order>
-              Objednat
-            </button>
-          </div>
-        </div>
-
-        <div class="hero-box__meta hero-box__meta--bottom">
-          <span>Hraní rolí</span>
-          <span>Procházení příběhem</span>
-          <span>Tělesná interakce</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2. EXPERIENCE (adli 2) -->
+    <!-- 1 & 2. HERO -> EXPERIENCE (plynulý morph + odhalování slovo po slovu) -->
     <section
-      class="section-experience"
-      id="experience"
-      data-section="experience"
+      class="section-hero-exp"
+      id="heroExperience"
+      data-section="hero"
       data-headline="./assets/headline-experience.svg"
       data-headline-alt="EXPERIENCE"
     >
-      <div class="experience-card">
-        <p class="experience-text" data-scroll-fade-lines>
-          <span class="fade-phrase">Staňte se hlavními hrdiny erotického příběhu.</span>
-          <span class="fade-phrase">Dvě role. Žádné dlouhé přípravy.</span>
-          <span class="fade-phrase">Jen hravost a prožitek.</span>
-          <span class="fade-phrase">Na jeden večer se stanete femme fatale a detektivem.</span>
-          <span class="fade-phrase">Naše scénáře vás povedou.</span>
-          <span class="fade-phrase fade-phrase--strong">Jak daleko?</span>
-          <span class="fade-phrase fade-phrase--accent">To už je na vás.</span>
-        </p>
+      <div class="hero-exp__sticky">
+        <div class="hero-box" id="morphBox">
+          <!-- Ornamentální rámeček víka -->
+          <img
+            src="./assets/box-frame.svg"
+            alt=""
+            aria-hidden="true"
+            class="hero-box__frame"
+            id="heroFrame"
+          />
+
+          <!-- HERO VRSTVA (při scrollu zmizí) -->
+          <div class="hero-layer" id="heroLayer">
+            <div class="hero-box__meta hero-box__meta--top">
+              <span>2 hráči</span>
+              <span>~3 hodiny</span>
+              <span>18+</span>
+            </div>
+
+            <div class="hero-box__center">
+              <div class="hero-box__content">
+                <img
+                  src="./assets/adlibidum-logo.svg"
+                  alt="ADLIBIDUM"
+                  class="hero-box__logo"
+                />
+                <h1 class="hero-box__title">HRA, KTERÁ VÁS (S)VEDE</h1>
+                <p class="hero-box__subtitle">
+                  Scénář pro nezapomenutelné rande,<br />
+                  v pohodlí vašeho domova.
+                </p>
+                <button type="button" class="btn-primary hero-box__cta" data-open-order>
+                  Objednat
+                </button>
+              </div>
+            </div>
+
+            <div class="hero-box__meta hero-box__meta--bottom">
+              <span>Hraní rolí</span>
+              <span>Procházení příběhem</span>
+              <span>Tělesná interakce</span>
+            </div>
+          </div>
+
+          <!-- EXPERIENCE VRSTVA (odhaluje se slovo po slovu) -->
+          <div class="experience-layer" id="experienceLayer" aria-hidden="true">
+            <p class="experience-text" id="experienceText">
+              <span class="exp-chunk" data-chunk="0">Staňte se hlavními hrdiny erotického příběhu. Dvě role. Žádné dlouhé přípravy.</span>
+              <span class="exp-chunk" data-chunk="1">Jen hravost a prožitek. Na jeden večer se stanete femme fatale a detektivem.</span>
+              <span class="exp-chunk" data-chunk="2">Naše scénáře vás povedou. Jak daleko?</span>
+              <span class="exp-chunk exp-chunk--accent" data-chunk="3">To už je na vás.</span>
+            </p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- 3. IMAGINE (adli 3) -->
+    <!-- 3. IMAGINE (editorial push-out deck) -->
     <section
-      class="section-imagine"
+      class="section-deck section-imagine"
       id="imagine"
-      data-section="imagine"
+      data-editorial-deck
+      data-deck-step="115"
       data-headline="./assets/headline-imagine.svg"
       data-headline-alt="IMAGINE"
     >
-      <div class="imagine-list">
-        <article class="imagine-row" data-scroll-fade>
-          <h2 class="imagine-row__title">Scény</h2>
-          <p class="imagine-row__text">
-            … které vás nažhaví. Situace z oblíbeného erotického filmu si zažijete sami, bez kamery a publika. Jen vy dva.
-          </p>
-        </article>
+      <div class="deck-sticky">
+        <div class="deck-stage imagine-stage">
+          <article class="deck-item imagine-row" data-deck-item>
+            <h2 class="imagine-row__title">Scény</h2>
+            <p class="imagine-row__text">
+              … které vás nažhaví. Situace z oblíbeného erotického filmu si zažijete sami, bez kamery a publika. Jen vy dva.
+            </p>
+          </article>
 
-        <article class="imagine-row" data-scroll-fade>
-          <h2 class="imagine-row__title">Předehra</h2>
-          <p class="imagine-row__text">
-            … jakou jste nezažili. Provedeme vás dirty talkem, něžnými dotyky i hravým sváděním.
-          </p>
-        </article>
+          <article class="deck-item imagine-row" data-deck-item>
+            <h2 class="imagine-row__title">Předehra</h2>
+            <p class="imagine-row__text">
+              … jakou jste nezažili. Provedeme vás dirty talkem, něžnými dotyky i hravým sváděním.
+            </p>
+          </article>
 
-        <article class="imagine-row" data-scroll-fade>
-          <h2 class="imagine-row__title">Vášeň</h2>
-          <p class="imagine-row__text">
-            Uvidíte partnera i sebe novýma očima. Zažehnete jiskru, kterou každodenní nuda dusí.
-          </p>
-        </article>
+          <article class="deck-item imagine-row" data-deck-item>
+            <h2 class="imagine-row__title">Vášeň</h2>
+            <p class="imagine-row__text">
+              Uvidíte partnera i sebe novýma očima. Zažehnete jiskru, kterou každodenní nuda dusí.
+            </p>
+          </article>
+        </div>
       </div>
     </section>
 
-    <!-- 4. INSIDE — INTERAKTIVNÍ SHOWCASE (adli 4) -->
+    <!-- 4. INSIDE — INTERAKTIVNÍ SHOWCASE -->
     <section
       class="section-inside-showcase"
       id="inside"
-      data-section="inside"
       data-headline="./assets/headline-inside.svg"
       data-headline-alt="INSIDE"
     >
       <div class="inside-showcase__sticky">
         <div class="inside-showcase__stage">
-          <img
-            src="./assets/inside-1.png"
-            alt="Scénář pro ni a pro něj"
-            class="inside-showcase__img is-active"
-            data-inside-img="0"
-          />
-          <img
-            src="./assets/inside-2.png"
-            alt="Průvodní dopis s kurátorovaným playlistem"
-            class="inside-showcase__img"
-            data-inside-img="1"
-          />
-          <img
-            src="./assets/inside-3.png"
-            alt="Vstupenky a tetování"
-            class="inside-showcase__img"
-            data-inside-img="2"
-          />
-          <img
-            src="./assets/inside-4.png"
-            alt="Drobné rekvizity"
-            class="inside-showcase__img"
-            data-inside-img="3"
-          />
+          <img src="./assets/inside-1.png" alt="Scénář pro ni a pro něj" class="inside-showcase__img is-active" data-inside-img="0" />
+          <img src="./assets/inside-2.png" alt="Průvodní dopis s kurátorovaným playlistem" class="inside-showcase__img" data-inside-img="1" />
+          <img src="./assets/inside-3.png" alt="Vstupenky a tetování" class="inside-showcase__img" data-inside-img="2" />
+          <img src="./assets/inside-4.png" alt="Drobné rekvizity" class="inside-showcase__img" data-inside-img="3" />
         </div>
 
         <nav class="inside-showcase__tabs" aria-label="Obsah krabice">
-          <button type="button" class="inside-tab is-active" data-inside-tab="0">
-            Scénář pro ni a pro něj
-          </button>
-          <button type="button" class="inside-tab" data-inside-tab="1">
-            Průvodní dopis s kurátorovaným playlistem
-          </button>
-          <button type="button" class="inside-tab" data-inside-tab="2">
-            Vstupenky a tetování
-          </button>
-          <button type="button" class="inside-tab" data-inside-tab="3">
-            Drobné rekvizity
-          </button>
+          <button type="button" class="inside-tab is-active" data-inside-tab="0">Scénář pro ni a pro něj</button>
+          <button type="button" class="inside-tab" data-inside-tab="1">Průvodní dopis s kurátorovaným playlistem</button>
+          <button type="button" class="inside-tab" data-inside-tab="2">Vstupenky a tetování</button>
+          <button type="button" class="inside-tab" data-inside-tab="3">Drobné rekvizity</button>
         </nav>
       </div>
     </section>
 
-    <!-- 5. INSIDE — DETAIL SPLIT (adli 5) -->
+    <!-- 5. INSIDE — DETAIL SPLIT (50 % sticky krabice / 50 % push-out deck) -->
     <section
-      class="section-split section-inside-detail"
-      data-section="inside"
+      class="section-deck section-split-deck"
+      data-editorial-deck
+      data-deck-step="115"
       data-headline="./assets/headline-inside.svg"
       data-headline-alt="INSIDE"
     >
-      <div class="split-layout">
-        <div class="split-layout__sticky">
-          <img
-            src="./assets/box-closed.png"
-            alt="Zavřená krabice AdLibidum"
-            class="inside-detail__box"
-          />
-        </div>
+      <div class="deck-sticky">
+        <div class="split-deck-grid">
+          <div class="split-deck__left">
+            <img
+              src="./assets/box-closed.png"
+              alt="Zavřená krabice AdLibidum"
+              class="inside-detail__box"
+            />
+          </div>
 
-        <div class="split-layout__scroll">
-          <p class="split-paragraph" data-scroll-fade>
-            V krabici najdete sadu herních rekvizit a dva scénáře. Na ni čeká scénář s rolí femme fatale. Na něj s rolí detektiva.
-          </p>
-          <p class="split-paragraph" data-scroll-fade>
-            Scénáře podrobně provází <strong>šesti scénami</strong> — popisují jejich začátek, doporučený průběh a konec, dávají hráčům tipy a pomáhají stupňovat milostné napětí. Dvojice se <strong>nemusí učit žádné repliky</strong>, improvizuje s pomocí připravených textů na základě herních výzev. Instrukce vedou k rafinovanému intimnímu kontaktu, v podstatě jde o <strong>pár hodin intenzivní předehry</strong>.
-          </p>
-          <p class="split-paragraph" data-scroll-fade>
-            Součástí hry jsou pomůcky pro smyslové hraní si a atmosférický soundtrack. Kromě krabice je k hraní potřeba jen <strong>chuť a vyhrazený čas</strong>. Hrát můžete klidně doma v obýváku. Nakolik se vyřádíte s kostýmy, makeupem a scénou, je jen a jen na vás. Stejně jako vystupňování závěru hry do něčeho více.
-          </p>
+          <div class="split-deck__right deck-stage">
+            <p class="deck-item split-paragraph" data-deck-item>
+              V krabici najdete sadu herních rekvizit a dva scénáře. Na ni čeká scénář s rolí femme fatale. Na něj s rolí detektiva.
+            </p>
+            <p class="deck-item split-paragraph" data-deck-item>
+              Scénáře podrobně provází <strong>šesti scénami</strong> — popisují jejich začátek, doporučený průběh a konec, dávají hráčům tipy a pomáhají stupňovat milostné napětí. Dvojice se <strong>nemusí učit žádné repliky</strong>, improvizuje s pomocí připravených textů na základě herních výzev. Instrukce vedou k rafinovanému intimnímu kontaktu, v podstatě jde o <strong>pár hodin intenzivní předehry</strong>.
+            </p>
+            <p class="deck-item split-paragraph" data-deck-item>
+              Součástí hry jsou pomůcky pro smyslové hraní si a atmosférický soundtrack. Kromě krabice je k hraní potřeba jen <strong>chuť a vyhrazený čas</strong>. Hrát můžete klidně doma v obýváku. Nakolik se vyřádíte s kostýmy, makeupem a scénou, je jen a jen na vás. Stejně jako vystupňování závěru hry do něčeho více.
+            </p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 6. REVIEWS (adli 6) -->
+    <!-- 6. REVIEWS (push-out deck po řádcích: 2 / 3 / 2) -->
     <section
-      class="section-reviews"
+      class="section-deck section-reviews"
       id="reviews"
-      data-section="reviews"
+      data-editorial-deck
+      data-deck-step="125"
+      data-deck-spread="52"
       data-headline="./assets/headline-reviews.svg"
       data-headline-alt="REVIEWS"
     >
-      <div class="reviews-grid">
-        <!-- Řádek 1 (2 karty) -->
-        <div class="reviews-row reviews-row--2" data-scroll-fade>
-          <article class="review-card">
-            <p class="review-card__quote">
-              Nečekali jsme, jak silný to bude. Žádné trapné úkoly. Scénář nám dal naprostou volnost a safe space a prostor prozkoumat věci, o kterých jsme do té doby jen potichu přemýšleli.
-            </p>
-            <footer class="review-card__author">
-              <strong>Veronika &amp; Jan</strong>
-              <span>47 a 45 let, Praha</span>
-            </footer>
-          </article>
+      <div class="deck-sticky">
+        <div class="deck-stage reviews-stage">
+          <div class="deck-item reviews-row reviews-row--2" data-deck-item>
+            <article class="review-card">
+              <p class="review-card__quote">
+                Nečekali jsme, jak silný to bude. Žádné trapné úkoly. Scénář nám dal naprostou volnost a safe space a prostor prozkoumat věci, o kterých jsme do té doby jen potichu přemýšleli.
+              </p>
+              <footer class="review-card__author">
+                <strong>Veronika &amp; Jan</strong>
+                <span>47 a 45 let, Praha</span>
+              </footer>
+            </article>
 
-          <article class="review-card">
-            <p class="review-card__quote">
-              Po letech, kdy jsem hlavně máma a manažerka domácnosti, jsem z klece zase mohla vypustit divou milenku. Už jsem myslela, že tam uvnitř mě ani není. Bylo to osvobozující.
-            </p>
-            <footer class="review-card__author">
-              <strong>Tereza</strong>
-              <span>38 let, Žatec</span>
-            </footer>
-          </article>
-        </div>
+            <article class="review-card">
+              <p class="review-card__quote">
+                Po letech, kdy jsem hlavně máma a manažerka domácnosti, jsem z klece zase mohla vypustit divou milenku. Už jsem myslela, že tam uvnitř mě ani není. Bylo to osvobozující.
+              </p>
+              <footer class="review-card__author">
+                <strong>Tereza</strong>
+                <span>38 let, Žatec</span>
+              </footer>
+            </article>
+          </div>
 
-        <!-- Řádek 2 (3 karty) -->
-        <div class="reviews-row reviews-row--3" data-scroll-fade>
-          <article class="review-card">
-            <p class="review-card__quote">
-              Nejlepší investice do partnerského života za poslední roky. Atmosféra, soundtrack i rekvizity vytvořily filmovou náladu přímo v našem obýváku. Budete dělat i další edice, že jo? Že jo?!
-            </p>
-            <footer class="review-card__author">
-              <strong>Kateřina &amp; Josef</strong>
-              <span>41 a 46 let, Brno</span>
-            </footer>
-          </article>
+          <div class="deck-item reviews-row reviews-row--3" data-deck-item>
+            <article class="review-card">
+              <p class="review-card__quote">
+                Nejlepší investice do partnerského života za poslední roky. Atmosféra, soundtrack i rekvizity vytvořily filmovou náladu přímo v našem obýváku. Budete dělat i další edice, že jo? Že jo?!
+              </p>
+              <footer class="review-card__author">
+                <strong>Kateřina &amp; Josef</strong>
+                <span>41 a 46 let, Brno</span>
+              </footer>
+            </article>
 
-          <article class="review-card">
-            <p class="review-card__quote">
-              Doma na gauči se po uspání dětí obvykle zasekneme na řešení chodu domácnosti. Tohle byla skvělá záminka se na to vykašlat a ocitnout se spolu doslova v jiné realitě. Díky!
-            </p>
-            <footer class="review-card__author">
-              <strong>Klára &amp; Martin</strong>
-              <span>26 a 28 let, Jihlava</span>
-            </footer>
-          </article>
+            <article class="review-card">
+              <p class="review-card__quote">
+                Doma na gauči se po uspání dětí obvykle zasekneme na řešení chodu domácnosti. Tohle byla skvělá záminka se na to vykašlat a ocitnout se spolu doslova v jiné realitě. Díky!
+              </p>
+              <footer class="review-card__author">
+                <strong>Klára &amp; Martin</strong>
+                <span>26 a 28 let, Jihlava</span>
+              </footer>
+            </article>
 
-          <article class="review-card">
-            <p class="review-card__quote">
-              Bál jsem se, že nezvládnu herecký výkon, ale hele dobrý. Nakonec jsem si dost užíval vibe tvrďáka v kvádru. Napřed hrát Zagorku a pak si to pořádně rozdat. Napodruhý už jsem si detektiva střihl líp než Caprio ;)
-            </p>
-            <footer class="review-card__author">
-              <strong>Adam</strong>
-              <span>54 let, Olomouc</span>
-            </footer>
-          </article>
-        </div>
+            <article class="review-card">
+              <p class="review-card__quote">
+                Bál jsem se, že nezvládnu herecký výkon, ale hele dobrý. Nakonec jsem si dost užíval vibe tvrďáka v kvádru. Napřed hrát Zagorku a pak si to pořádně rozdat. Napodruhý už jsem si detektiva střihl líp než Caprio ;)
+              </p>
+              <footer class="review-card__author">
+                <strong>Adam</strong>
+                <span>54 let, Olomouc</span>
+              </footer>
+            </article>
+          </div>
 
-        <!-- Řádek 3 (2 karty) -->
-        <div class="reviews-row reviews-row--2" data-scroll-fade>
-          <article class="review-card">
-            <p class="review-card__quote">
-              Když jsem viděl manželku jako femme fatale, nemohl jsem uvěřit, že to je pořád ona. Netušil jsem, jakou svůdnici mám doma. Doufám, že naše předehry už nebudou jako dřív.
-            </p>
-            <footer class="review-card__author">
-              <strong>Oldřich</strong>
-              <span>61 let, Plzeň</span>
-            </footer>
-          </article>
+          <div class="deck-item reviews-row reviews-row--2" data-deck-item>
+            <article class="review-card">
+              <p class="review-card__quote">
+                Když jsem viděl manželku jako femme fatale, nemohl jsem uvěřit, že to je pořád ona. Netušil jsem, jakou svůdnici mám doma. Doufám, že naše předehry už nebudou jako dřív.
+              </p>
+              <footer class="review-card__author">
+                <strong>Oldřich</strong>
+                <span>61 let, Plzeň</span>
+              </footer>
+            </article>
 
-          <article class="review-card">
-            <p class="review-card__quote">
-              Překvapila jsem samu sebe, kam a s jakým nadšením mě role zavedla. S Kamilem jsme díky tomu po hře ještě dlouho probírali, co se nám líbí. Co bychom rádi a jak vyzkoušeli. Kam chceme ještě posunout náš intimní život. Díky za inspiraci.
-            </p>
-            <footer class="review-card__author">
-              <strong>Martina</strong>
-              <span>46 let, Ostrava</span>
-            </footer>
-          </article>
+            <article class="review-card">
+              <p class="review-card__quote">
+                Překvapila jsem samu sebe, kam a s jakým nadšením mě role zavedla. S Kamilem jsme díky tomu po hře ještě dlouho probírali, co se nám líbí. Co bychom rádi a jak vyzkoušeli. Kam chceme ještě posunout náš intimní život. Díky za inspiraci.
+              </p>
+              <footer class="review-card__author">
+                <strong>Martina</strong>
+                <span>46 let, Ostrava</span>
+              </footer>
+            </article>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 7. ABOUT — SPLIT (adli 7) -->
+    <!-- 7. ABOUT — SPLIT (50 % sticky credits / 50 % push-out deck) -->
     <section
-      class="section-split section-about"
+      class="section-deck section-split-deck section-about"
       id="about"
-      data-section="about"
+      data-editorial-deck
+      data-deck-step="115"
       data-headline="./assets/headline-about.svg"
       data-headline-alt="ABOUT"
     >
-      <div class="split-layout">
-        <div class="split-layout__sticky">
-          <div class="about-credits">
-            <p class="about-credits__intro">AdLibidum vytvořili tito živí lidé:</p>
-            <dl class="credits-list">
-              <div class="credits-list__row">
-                <dt>Scénář</dt>
-                <dd>Petr Kuběnský</dd>
-              </div>
-              <div class="credits-list__row">
-                <dt>Dramaturg</dt>
-                <dd>Libor Komárek</dd>
-              </div>
-              <div class="credits-list__row">
-                <dt>Výtvarník</dt>
-                <dd>Kevin W. Scherrer</dd>
-              </div>
-              <div class="credits-list__row">
-                <dt>Produkce</dt>
-                <dd>Pavla Novotná</dd>
-              </div>
-              <div class="credits-list__row">
-                <dt>Režie</dt>
-                <dd>Petr Pouchlý</dd>
-              </div>
-            </dl>
+      <div class="deck-sticky">
+        <div class="split-deck-grid">
+          <div class="split-deck__left">
+            <div class="about-credits">
+              <p class="about-credits__intro">AdLibidum vytvořili tito živí lidé:</p>
+              <dl class="credits-list">
+                <div class="credits-list__row"><dt>Scénář</dt><dd>Petr Kuběnský</dd></div>
+                <div class="credits-list__row"><dt>Dramaturg</dt><dd>Libor Komárek</dd></div>
+                <div class="credits-list__row"><dt>Výtvarník</dt><dd>Kevin W. Scherrer</dd></div>
+                <div class="credits-list__row"><dt>Produkce</dt><dd>Pavla Novotná</dd></div>
+                <div class="credits-list__row"><dt>Režie</dt><dd>Petr Pouchlý</dd></div>
+              </dl>
+            </div>
           </div>
-        </div>
 
-        <div class="split-layout__scroll">
-          <p class="split-paragraph" data-scroll-fade>
-            Tvoříme vlastní i zakázkovou produkci, a organizujeme nejrůznější formy zážitkových her pro dospělé už dobrých dvacet let. Máme za sebou stovky komorních larpů, zážitkových víkendovek i dramaturgie večírků pro dospělé.
-          </p>
-          <p class="split-paragraph" data-scroll-fade>
-            Designu produktů, zážitků, gamifikaci, zákaznické zkušenosti i her se věnujeme jak v oblasti párové intimity, tak v běžném pracovním životě. AdLibidum je hra, kterou jsme si vždy chtěli zahrát, protože na trhu nebyla. Dáváme do her kus nás samotných a odměnou je nám především spokojený a nadšený hráč.
-          </p>
-          <p class="split-paragraph" data-scroll-fade>
-            Texty jsme psali ručně v Google Docs bez použití generativní AI. Při tvorbě vizuálu jsme si vystačili s Figmou, InDesignem a Blenderem. Pro vytvoření pětice příběhových obrazů jsme použili ComfyUI a
-            <span class="tooltip-trigger" tabindex="0">
-              lokální model<span class="tooltip-bubble" role="tooltip">Z-Image-Turbo v kombinaci s Qwen3</span>
-            </span>.
-          </p>
+          <div class="split-deck__right deck-stage">
+            <p class="deck-item split-paragraph" data-deck-item>
+              Tvoříme vlastní i zakázkovou produkci, a organizujeme nejrůznější formy zážitkových her pro dospělé už dobrých dvacet let. Máme za sebou stovky komorních larpů, zážitkových víkendovek i dramaturgie večírků pro dospělé.
+            </p>
+            <p class="deck-item split-paragraph" data-deck-item>
+              Designu produktů, zážitků, gamifikaci, zákaznické zkušenosti i her se věnujeme jak v oblasti párové intimity, tak v běžném pracovním životě. AdLibidum je hra, kterou jsme si vždy chtěli zahrát, protože na trhu nebyla. Dáváme do her kus nás samotných a odměnou je nám především spokojený a nadšený hráč.
+            </p>
+            <p class="deck-item split-paragraph" data-deck-item>
+              Texty jsme psali ručně v Google Docs bez použití generativní AI. Při tvorbě vizuálu jsme si vystačili s Figmou, InDesignem a Blenderem. Pro vytvoření pětice příběhových obrazů jsme použili ComfyUI a
+              <span class="tooltip-trigger" tabindex="0">
+                lokální model<span class="tooltip-bubble" role="tooltip">Z-Image-Turbo v kombinaci s Qwen3</span>
+              </span>.
+            </p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 8. F.A.Q. (adli 8) -->
+    <!-- 8. F.A.Q. -->
     <section
       class="section-faq"
       id="faq"
-      data-section="faq"
       data-headline="./assets/headline-faq.svg"
       data-headline-alt="F.A.Q."
     >
@@ -489,23 +452,16 @@
     </section>
   </main>
 
-  <!-- 9. FOOTER (Newsletter + Dokumenty + Návody + Kontakty) -->
+  <!-- 9. FOOTER -->
   <footer class="site-footer">
     <div class="footer-inner">
-      <!-- Newsletter -->
       <div class="footer-newsletter">
         <div class="footer-newsletter__copy">
           <h2>Zůstaňte v obraze</h2>
           <p>Dáme vám vědět, až chystáme další edici nebo speciální večer.</p>
         </div>
         <form class="newsletter-form" id="newsletterForm" novalidate>
-          <input
-            type="email"
-            id="newsletterEmail"
-            placeholder="váš e-mail…"
-            required
-            aria-label="Váš e-mail"
-          />
+          <input type="email" id="newsletterEmail" placeholder="váš e-mail…" required aria-label="Váš e-mail" />
           <button type="submit" class="btn-primary">Odebírat</button>
         </form>
         <p class="newsletter-status" id="newsletterStatus" role="status" aria-live="polite"></p>
@@ -513,7 +469,6 @@
 
       <hr class="footer-divider" />
 
-      <!-- Informace a odkazy -->
       <div class="footer-grid">
         <div class="footer-col">
           <h3>Dokumenty</h3>
@@ -546,24 +501,16 @@
 
       <div class="footer-bottom">
         <span>© AdLibidum</span>
-        <a href="#hero" class="footer-top-link">Zpět nahoru ↑</a>
+        <a href="#heroExperience" class="footer-top-link">Zpět nahoru ↑</a>
       </div>
     </div>
   </footer>
 
-  <!-- OBJEDNÁVKOVÝ MODAL (čistý 2-sloupcový checkout) -->
+  <!-- OBJEDNÁVKOVÝ MODAL -->
   <div class="modal-backdrop" id="orderModal" hidden aria-hidden="true">
-    <div
-      class="modal-dialog"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="orderModalTitle"
-    >
-      <button type="button" class="modal-close" id="orderModalClose" aria-label="Zavřít">
-        ✕
-      </button>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+      <button type="button" class="modal-close" id="orderModalClose" aria-label="Zavřít">✕</button>
 
-      <!-- Krok 1: Formulář -->
       <form class="checkout" id="orderForm" novalidate>
         <div class="checkout__main">
           <h2 id="orderModalTitle" class="checkout__title">Objednávka</h2>
@@ -571,20 +518,11 @@
           <fieldset class="checkout-group">
             <legend>Osobní údaje</legend>
             <div class="field-row">
-              <label class="field">
-                <span>Jméno</span>
-                <input type="text" name="firstName" required autocomplete="given-name" />
-              </label>
-              <label class="field">
-                <span>Příjmení</span>
-                <input type="text" name="lastName" required autocomplete="family-name" />
-              </label>
+              <label class="field"><span>Jméno</span><input type="text" name="firstName" required autocomplete="given-name" /></label>
+              <label class="field"><span>Příjmení</span><input type="text" name="lastName" required autocomplete="family-name" /></label>
             </div>
             <div class="field-row">
-              <label class="field">
-                <span>E-mail</span>
-                <input type="email" name="email" required autocomplete="email" />
-              </label>
+              <label class="field"><span>E-mail</span><input type="email" name="email" required autocomplete="email" /></label>
               <label class="field">
                 <span>Telefon</span>
                 <div class="phone-input">
@@ -610,7 +548,6 @@
                 <option value="PERSONAL_BRNO">Osobní odběr — Brno (Zdarma)</option>
               </select>
             </label>
-
             <div class="pickup-placeholder" id="pickupPlaceholder" hidden>
               <span>Zde se napojí widget výběru výdejního místa (Zaslat).</span>
             </div>
@@ -618,19 +555,10 @@
 
           <fieldset class="checkout-group">
             <legend>Fakturační / doručovací adresa</legend>
-            <label class="field">
-              <span>Ulice a číslo popisné</span>
-              <input type="text" name="address" required autocomplete="street-address" />
-            </label>
+            <label class="field"><span>Ulice a číslo popisné</span><input type="text" name="address" required autocomplete="street-address" /></label>
             <div class="field-row field-row--city">
-              <label class="field">
-                <span>Město</span>
-                <input type="text" name="city" required autocomplete="address-level2" />
-              </label>
-              <label class="field">
-                <span>PSČ</span>
-                <input type="text" name="postalCode" required autocomplete="postal-code" />
-              </label>
+              <label class="field"><span>Město</span><input type="text" name="city" required autocomplete="address-level2" /></label>
+              <label class="field"><span>PSČ</span><input type="text" name="postalCode" required autocomplete="postal-code" /></label>
             </div>
             <label class="field">
               <span>Poznámka <small>(nepovinné)</small></span>
@@ -639,20 +567,12 @@
           </fieldset>
 
           <div class="checkout-consents">
-            <label class="checkbox-field">
-              <input type="checkbox" name="marketingConsent" />
-              <span>Souhlasím se zasíláním obchodních sdělení.</span>
-            </label>
-            <label class="checkbox-field">
-              <input type="checkbox" name="gdprConsent" required />
-              <span>Souhlasím se zpracováním osobních údajů pro vyřízení objednávky.</span>
-            </label>
+            <label class="checkbox-field"><input type="checkbox" name="marketingConsent" /><span>Souhlasím se zasíláním obchodních sdělení.</span></label>
+            <label class="checkbox-field"><input type="checkbox" name="gdprConsent" required /><span>Souhlasím se zpracováním osobních údajů pro vyřízení objednávky.</span></label>
           </div>
-
           <p class="checkout-error" id="orderError" role="alert"></p>
         </div>
 
-        <!-- Pravý sloupec: Souhrn -->
         <aside class="checkout__summary">
           <div class="summary-product">
             <img src="./assets/box-closed.png" alt="AdLibidum" class="summary-product__img" />
@@ -671,27 +591,14 @@
             </div>
           </div>
 
-          <div class="summary-row">
-            <span>Doprava</span>
-            <span id="summaryShipping">119 Kč</span>
-          </div>
+          <div class="summary-row"><span>Doprava</span><span id="summaryShipping">119 Kč</span></div>
+          <div class="summary-row summary-row--total"><span>Celkem</span><strong id="summaryTotal">1 409 Kč</strong></div>
 
-          <div class="summary-row summary-row--total">
-            <span>Celkem</span>
-            <strong id="summaryTotal">1 409 Kč</strong>
-          </div>
-
-          <button type="submit" class="btn-primary checkout__submit">
-            Odeslat objednávku
-          </button>
-
-          <p class="summary-legal">
-            Odesláním souhlasíte s <a href="/adlibidum-vop.pdf" target="_blank">obchodními podmínkami</a>.
-          </p>
+          <button type="submit" class="btn-primary checkout__submit">Odeslat objednávku</button>
+          <p class="summary-legal">Odesláním souhlasíte s <a href="/adlibidum-vop.pdf" target="_blank">obchodními podmínkami</a>.</p>
         </aside>
       </form>
 
-      <!-- Krok 2: Potvrzení -->
       <div class="checkout-success" id="orderSuccess" hidden>
         <h2>Objednávka odeslána</h2>
         <p>Děkujeme. Platební údaje jsme poslali na váš e-mail. Zbývá jen uhradit objednávku.</p>
