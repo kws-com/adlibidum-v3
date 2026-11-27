@@ -238,8 +238,9 @@
       const insideParagraphs = [...document.querySelectorAll('[data-inside-paragraph]')];
 
       const TOTAL_INSIDE = insideImgs.length;
-      const SHOWCASE_END = 0.46;   // 0.00–0.46: 4 taby showcase
-      const TRANSITION_END = 0.60; // 0.46–0.60: posun box-outside doleva + spawn box-closed
+      const SHOWCASE_END = 0.36;   // 0.00–0.36: 4 taby showcase
+      const TRANSITION_END = 0.48; // 0.36–0.48: posun box-outside doleva + spawn box-closed
+      const DETAIL_END = 0.82;     // 0.48–0.82: 3 odstavce + cenovka (0.82–1.00 drží na místě, než ji setřou Reviews)
       let activeInsideStep = 0;
 
       function setInsideStep(index) {
@@ -281,36 +282,37 @@
           insideShowcaseWrap.style.pointerEvents = tabsOpacity > 0.1 ? 'auto' : 'none';
         }
 
-        // Spawn solo krabice přesně nad odjíždějící levou pozicí
-        if (insideDetailWrap && insideClosedBox) {
-          const detailOpacity = smoothstep(clamp01((transT - 0.15) / 0.75));
-          insideDetailWrap.style.opacity = detailOpacity.toFixed(3);
-          insideDetailWrap.setAttribute('aria-hidden', String(detailOpacity < 0.1));
-          insideClosedBox.style.transform = `scale(${lerp(0.94, 1, detailOpacity).toFixed(4)})`;
+      // Spawn solo krabice přesně nad odjíždějící levou pozicí
+      if (insideDetailWrap && insideClosedBox) {
+        const detailOpacity = smoothstep(clamp01((transT - 0.15) / 0.75));
+        insideDetailWrap.style.opacity = detailOpacity.toFixed(3);
+        insideDetailWrap.style.pointerEvents = detailOpacity > 0.5 ? 'auto' : 'none';
+        insideDetailWrap.setAttribute('aria-hidden', String(detailOpacity < 0.1));
+        insideClosedBox.style.transform = `scale(${lerp(0.94, 1, detailOpacity).toFixed(4)})`;
+      }
+
+      // 3. Odstavce + cenovka vpravo (0.48–0.82), pak drží na místě
+      const detailP = clamp01((p - TRANSITION_END) / (DETAIL_END - TRANSITION_END));
+      const floatIdx = detailP * (insideParagraphs.length - 1);
+
+      insideParagraphs.forEach((item, i) => {
+        const d = i - floatIdx;
+        const yVh = d > 0 ? d * 44 : 0;
+
+        let opacity;
+        if (d >= 0) {
+          const t = clamp01(1 - d);
+          opacity = lerp(0.2, 1, smoothstep(t));
+          if (d > 1.2) opacity = Math.max(0, lerp(0.2, 0, (d - 1.2) / 0.45));
+        } else {
+          const t = clamp01(1 + d / 0.65);
+          opacity = smoothstep(t);
         }
 
-        // 3. Odstavce vpravo (0.60–1.00): stejný stop-na-středu engine
-        const detailP = clamp01((p - TRANSITION_END) / (1 - TRANSITION_END));
-        const floatIdx = detailP * (insideParagraphs.length - 1);
-
-        insideParagraphs.forEach((item, i) => {
-          const d = i - floatIdx;
-          const yVh = d > 0 ? d * 44 : 0;
-
-          let opacity;
-          if (d >= 0) {
-            const t = clamp01(1 - d);
-            opacity = lerp(0.2, 1, smoothstep(t));
-            if (d > 1.2) opacity = Math.max(0, lerp(0.2, 0, (d - 1.2) / 0.45));
-          } else {
-            const t = clamp01(1 + d / 0.65);
-            opacity = smoothstep(t);
-          }
-
-          item.style.transform = `translate3d(0, calc(-50% + ${yVh.toFixed(2)}vh), 0)`;
-          item.style.opacity = opacity.toFixed(3);
-        });
-      }
+        item.style.transform = `translate3d(0, calc(-50% + ${yVh.toFixed(2)}vh), 0)`;
+        item.style.opacity = opacity.toFixed(3);
+        item.style.pointerEvents = Math.abs(d) < 0.35 ? 'auto' : 'none';
+      });
 
       // Přímý skok na tab bez probliknutí mezikroků
       insideTabs.forEach((tab) => {

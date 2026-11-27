@@ -441,9 +441,10 @@ textarea {
    4 & 5. INSIDE — SPOJENÁ SCÉNA (SHOWCASE -> POSUN DOLEVA -> SOLO KRABICE)
    ========================================================================== */
 .section-inside-stage {
-  position: relative;
-  height: 420svh;
-  background: var(--bg);
+    position: relative;
+    z-index: 1;
+    height: 560svh;
+    background: var(--bg);
 }
 
 .inside-stage__sticky {
@@ -517,6 +518,78 @@ textarea {
 
 .inside-tab.is-active {
   color: var(--ac);
+}
+
+.inside-offer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 440px;
+}
+
+.inside-offer__pricing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.inside-offer__price {
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 6.67vw, 128px);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: var(--ac);
+  white-space: nowrap;
+}
+
+.inside-offer__shipping {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--fg);
+  margin-top: 4px;
+}
+
+.inside-offer__cta {
+  width: min(360px, 100%);
+  padding: 14px 36px;
+  font-size: clamp(1.35rem, 1.67vw, 32px);
+  letter-spacing: 0.04em;
+  margin-bottom: 20px;
+}
+
+.inside-offer__note {
+  margin: 0 0 44px;
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--fg);
+}
+
+.inside-offer__note a {
+  color: var(--ac);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.inside-offer__contents {
+  margin: 0;
+  width: min(360px, 100%);
+  text-align: left;
+  font-family: var(--font-serif);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--fg);
+}
+
+.section-reviews {
+  position: relative;
+  z-index: 10;
+  background: var(--bg);
+  margin-top: -100svh;
+  box-shadow: 0 -24px 64px rgba(7, 4, 42, 0.06);
 }
 
 /* Detail vrstva (solo krabice vlevo + texty vpravo) */
@@ -1271,8 +1344,9 @@ textarea {
 
   /* Na mobilu u Reviews necháme přirozený tok, aby se 3 karty pod sebou neořezaly */
   .section-reviews {
-    height: auto !important;
-  }
+    margin-top: 0;
+    box-shadow: none;
+}
 
   .section-reviews .deck-sticky {
     position: relative;
