@@ -52,59 +52,56 @@
   </header>
 
   <main>
-    <!-- 1 & 2. HERO -> EXPERIENCE (plynulý morph + odhalování slovo po slovu) -->
-    <section
-      class="section-hero-exp"
-      id="heroExperience"
-      data-section="hero"
-      data-headline="./assets/headline-experience.svg"
-      data-headline-alt="EXPERIENCE"
-    >
-      <div class="hero-exp__sticky">
-        <div class="hero-box" id="morphBox">
-          <!-- Ornamentální rámeček víka -->
-          <img
-            src="./assets/box-frame.svg"
-            alt=""
-            aria-hidden="true"
-            class="hero-box__frame"
-            id="heroFrame"
-          />
-
-          <!-- HERO VRSTVA (při scrollu zmizí) -->
-          <div class="hero-layer" id="heroLayer">
-            <div class="hero-box__meta hero-box__meta--top">
-              <span>2 hráči</span>
-              <span>~3 hodiny</span>
-              <span>18+</span>
+  <!-- 1, 2 & 3. HERO -> EXPERIENCE -> IMAGINE (jedna plynulá morph sekvence) -->
+      <section class="section-opening-stage" id="openingStage">
+        <div class="opening-stage__sticky">
+          <!-- Bílý obdélník, který se 3× odpoutá a zvětší -->
+          <div class="morph-box" id="morphBox">
+            <div class="morph-box__bg" id="morphBoxBg">
+              <img
+                src="./assets/box-frame.svg"
+                alt=""
+                aria-hidden="true"
+                class="hero-box__frame"
+                id="heroFrame"
+              />
             </div>
 
-            <div class="hero-box__center">
-              <div class="hero-box__content">
-                <img
-                  src="./assets/adlibidum-logo.svg"
-                  alt="ADLIBIDUM"
-                  class="hero-box__logo"
-                />
-                <h1 class="hero-box__title">HRA, KTERÁ VÁS (S)VEDE</h1>
-                <p class="hero-box__subtitle">
-                  Scénář pro nezapomenutelné rande,<br />
-                  v pohodlí vašeho domova.
-                </p>
-                <button type="button" class="btn-primary hero-box__cta" data-open-order>
-                  Objednat
-                </button>
+            <!-- VRSTVA 1: HERO -->
+            <div class="hero-layer" id="heroLayer">
+              <div class="hero-box__meta hero-box__meta--top">
+                <span>2 hráči</span>
+                <span>~3 hodiny</span>
+                <span>18+</span>
               </div>
-            </div>
 
-            <div class="hero-box__meta hero-box__meta--bottom">
-              <span>Hraní rolí</span>
-              <span>Procházení příběhem</span>
-              <span>Tělesná interakce</span>
+              <div class="hero-box__center">
+                <div class="hero-box__content">
+                  <img
+                    src="./assets/adlibidum-logo.svg"
+                    alt="ADLIBIDUM"
+                    class="hero-box__logo"
+                  />
+                  <h1 class="hero-box__title">HRA, KTERÁ VÁS (S)VEDE</h1>
+                  <p class="hero-box__subtitle">
+                    Scénář pro nezapomenutelné rande,<br />
+                    v pohodlí vašeho domova.
+                  </p>
+                  <button type="button" class="btn-primary hero-box__cta" data-open-order>
+                    Objednat
+                  </button>
+                </div>
+              </div>
+
+              <div class="hero-box__meta hero-box__meta--bottom">
+                <span>Hraní rolí</span>
+                <span>Procházení příběhem</span>
+                <span>Tělesná interakce</span>
+              </div>
             </div>
           </div>
 
-          <!-- EXPERIENCE VRSTVA (odhaluje se slovo po slovu) -->
+          <!-- VRSTVA 2: EXPERIENCE -->
           <div class="experience-layer" id="experienceLayer" aria-hidden="true">
             <p class="experience-text" id="experienceText">
               <span class="exp-chunk" data-chunk="0">Staňte se hlavními hrdiny erotického příběhu. Dvě role. Žádné dlouhé přípravy.</span>
@@ -113,44 +110,34 @@
               <span class="exp-chunk exp-chunk--accent" data-chunk="3">To už je na vás.</span>
             </p>
           </div>
+
+          <!-- VRSTVA 3: IMAGINE (na zvětšeném obdélníku) -->
+          <div class="imagine-layer" id="imagineLayer" aria-hidden="true">
+            <div class="deck-stage imagine-stage">
+              <article class="deck-item imagine-row" data-imagine-item>
+                <h2 class="imagine-row__title">Scény</h2>
+                <p class="imagine-row__text">
+                  … které vás nažhaví. Situace z oblíbeného erotického filmu si zažijete sami, bez kamery a publika. Jen vy dva.
+                </p>
+              </article>
+
+              <article class="deck-item imagine-row" data-imagine-item>
+                <h2 class="imagine-row__title">Předehra</h2>
+                <p class="imagine-row__text">
+                  … jakou jste nezažili. Provedeme vás dirty talkem, něžnými dotyky i hravým sváděním.
+                </p>
+              </article>
+
+              <article class="deck-item imagine-row" data-imagine-item>
+                <h2 class="imagine-row__title">Vášeň</h2>
+                <p class="imagine-row__text">
+                  Uvidíte partnera i sebe novýma očima. Zažehnete jiskru, kterou každodenní nuda dusí.
+                </p>
+              </article>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
-
-    <!-- 3. IMAGINE (editorial push-out deck) -->
-    <section
-      class="section-deck section-imagine"
-      id="imagine"
-      data-editorial-deck
-      data-deck-step="115"
-      data-headline="./assets/headline-imagine.svg"
-      data-headline-alt="IMAGINE"
-    >
-      <div class="deck-sticky">
-        <div class="deck-stage imagine-stage">
-          <article class="deck-item imagine-row" data-deck-item>
-            <h2 class="imagine-row__title">Scény</h2>
-            <p class="imagine-row__text">
-              … které vás nažhaví. Situace z oblíbeného erotického filmu si zažijete sami, bez kamery a publika. Jen vy dva.
-            </p>
-          </article>
-
-          <article class="deck-item imagine-row" data-deck-item>
-            <h2 class="imagine-row__title">Předehra</h2>
-            <p class="imagine-row__text">
-              … jakou jste nezažili. Provedeme vás dirty talkem, něžnými dotyky i hravým sváděním.
-            </p>
-          </article>
-
-          <article class="deck-item imagine-row" data-deck-item>
-            <h2 class="imagine-row__title">Vášeň</h2>
-            <p class="imagine-row__text">
-              Uvidíte partnera i sebe novýma očima. Zažehnete jiskru, kterou každodenní nuda dusí.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
+      </section>
 
     <!-- 4. INSIDE — INTERAKTIVNÍ SHOWCASE -->
     <section

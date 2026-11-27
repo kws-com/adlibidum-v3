@@ -195,15 +195,15 @@ textarea {
 }
 
 /* ==========================================================================
-   1 & 2. HERO -> EXPERIENCE MORPH STAGE
+   1, 2 & 3. OPENING STAGE: HERO -> EXPERIENCE -> IMAGINE
    ========================================================================== */
-.section-hero-exp {
-    position: relative;
-    height: 320svh;
-    background: var(--bg);
+.section-opening-stage {
+  position: relative;
+  height: 520svh;
+  background: var(--bg);
 }
 
-.hero-exp__sticky {
+.opening-stage__sticky {
   position: sticky;
   top: 0;
   height: 100svh;
@@ -213,14 +213,19 @@ textarea {
   overflow: hidden;
 }
 
-.hero-box {
+.morph-box {
   position: relative;
   width: min(1288px, 100%);
   height: min(82svh, 880px);
+}
+
+.morph-box__bg {
+  position: absolute;
+  inset: 0;
   background: linear-gradient(180deg, #ffffff 0%, #ffffff 74%, #f7f7f9 100%);
   box-shadow: var(--shadow-box);
-  overflow: hidden;
-  will-change: transform, width, height;
+  pointer-events: none;
+  will-change: transform, opacity;
 }
 
 .hero-box__frame {
@@ -241,7 +246,7 @@ textarea {
   display: grid;
   grid-template-rows: auto 1fr auto;
   padding: clamp(28px, 4.5vw, 64px) clamp(24px, 5.5vw, 88px);
-  will-change: opacity, transform;
+  will-change: opacity;
 }
 
 .hero-box__meta {
@@ -301,7 +306,7 @@ textarea {
   padding: 0.85rem 3.4rem;
 }
 
-/* Experience text uvnitř zvětšené karty */
+/* Experience vrstva */
 .experience-layer {
   position: absolute;
   inset: 0;
@@ -309,7 +314,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(28px, 5vw, 72px) clamp(24px, 6vw, 96px);
+  padding: calc(var(--header-h) + 12px) clamp(24px, 7vw, 110px) 40px;
   pointer-events: none;
   opacity: 0;
   will-change: opacity;
@@ -317,8 +322,7 @@ textarea {
 
 .experience-text {
   margin: 0;
-  width: 100%;
-  max-width: 24ch;
+  width: min(1360px, 100%);
   font-family: var(--font-display);
   font-size: var(--fs-experience);
   line-height: 1.08;
@@ -342,6 +346,26 @@ textarea {
   margin-right: 0.24em;
   opacity: 0;
   will-change: opacity;
+}
+
+/* Imagine vrstva */
+.imagine-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--header-h) clamp(24px, 6vw, 96px) 32px;
+  pointer-events: none;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.imagine-stage {
+  width: min(1520px, 100%);
+  height: 100%;
+  margin: 0 auto;
 }
 
 /* ==========================================================================
