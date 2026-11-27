@@ -32,6 +32,8 @@
 
   --header-h: 84px;
   --ease-apple: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --deck-anchor: 38%;
 }
 
 *,
@@ -373,7 +375,7 @@ textarea {
    ========================================================================== */
 .section-deck {
   position: relative;
-  /* Výšku nastavuje JS podle počtu položek */
+  background: var(--bg);
 }
 
 .deck-sticky {
@@ -397,7 +399,7 @@ textarea {
   position: absolute;
   left: 0;
   right: 0;
-  top: 50%;
+  top: var(--deck-anchor);
   will-change: transform, opacity;
 }
 
@@ -441,6 +443,7 @@ textarea {
 .section-inside-stage {
   position: relative;
   height: 420svh;
+  background: var(--bg);
 }
 
 .inside-stage__sticky {
@@ -707,6 +710,7 @@ textarea {
    ========================================================================== */
 .section-faq {
   padding: clamp(110px, 15vh, 190px) clamp(20px, 5vw, 80px);
+  background: var(--bg);
 }
 
 .faq-list {
